@@ -5,6 +5,7 @@ namespace App\UserStory;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 
+
 class CreateAccount
 {
     protected EntityManager $entityManager;
@@ -22,17 +23,22 @@ class CreateAccount
     public function execute(string $pseudo, string $email, string $password) : User
     {
         // Verifier que des données sont presentent
-        // Si tel n'est pas le cas lancé une exceptio
-        if (empty($pseudo || $email || $password))
-            echo "aucune données rentrée";
-            {
+        // Si tel n'est pas le cas lancé une exception
+        if (empty($pseudo )|| empty($email) || empty($password)){
+            throw new \Exception("aucune données rentrée");
+        }
 
-            }
         // Verifier si l'email est valide
         // Si tel n'est pas le cas lancé une exception
-
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+       throw new \Exception("L'adresse email $email n'est pas valide");
+    }
         // Verifier si la longueur du pseudo est entre 2 et 50 caracteres
         // Si tel n'est pas le cas lancé une exception
+        $longueur = strlen($pseudo);
+        if ($longueur > 50 || $longueur <2){
+            throw new \Exception("Le Pseudo doit faire 2 et 50 caracteres");
+        }
 
         // Verifier si le mot de passe est securise
         // Si tel n'est pas le cas lancé une exception
